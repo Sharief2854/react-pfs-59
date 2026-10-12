@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function AddDoctor() {
     const[name,setname]=useState("");
@@ -7,9 +8,14 @@ function AddDoctor() {
     const[salary,setsalary]=useState("");
     const[specialization,setspecialization]=useState("");
     const[gender,setgender]=useState("");
+    const[loading,setLoading]=useState(false);
+
+
+    const navigate=useNavigate();
 
     async function handleSubmit(event){
         event.preventDefault();
+        setLoading(true);
         // validation
         let obj={
             name,
@@ -20,8 +26,19 @@ function AddDoctor() {
         }
         console.log(obj)
 
-        let res=await axios.post("http://localhost:3000/doctors",obj)
-        console.log(res);
+        try{
+            let res=await axios.post("http://localhost:3000/doctors",obj)
+            console.log(res);
+            alert("added successfully...");
+            // navigate to home
+            navigate("/");
+        }
+        catch(err){
+            alert("something went wrong")
+        }
+        finally{
+            setLoading(false)
+        }
     }
 
     
@@ -51,7 +68,6 @@ function AddDoctor() {
                      onChange={(event)=>setage(event.target.value)}
 
                 />
-
 
                 <label htmlFor="gender">Gender</label>
                 <select
@@ -97,7 +113,7 @@ function AddDoctor() {
             
 
                 <button className="btn-2" style={{ backgroundColor: "#1D51EC", color: "white" }} >
-                    Add Doctor
+                    {loading==true?"Loading...":"Add Doctor"}
                 </button>
 
             </form>
