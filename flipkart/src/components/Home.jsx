@@ -13,7 +13,7 @@ function Home() {
 
     let newArr=doctors.map((item)=>{
         return (
-            <Card name={item.name} gender={item.gender} specialization={item.specialization}/>
+            <Card name={item.name} gender={item.gender} specialization={item.specialization} key={item.id} id={item.id}/>
         )
     }); 
 
